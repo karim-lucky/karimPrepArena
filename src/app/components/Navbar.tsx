@@ -23,6 +23,7 @@ const Navbar = () => {
               onClick={() => router.push("/")}
             >
             KairmPrep Arena
+            
             </span>
           </div>
           
