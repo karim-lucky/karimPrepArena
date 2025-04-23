@@ -33,12 +33,14 @@ const Navbar = () => {
             <a href="/#testimonials" className="text-gray-700 hover:text-green-600 transition-colors">Testimonials</a>
             <a href="/#pricing" className="text-gray-700 hover:text-green-600 transition-colors">Pricing</a>
             <Button 
-              variant="outline" 
+
+
+variant="outline" 
               className="border-green-500 text-primary hover:bg-green-500 hover:text-white"
               onClick={() => router.push("/login")}
             >
               Log In
-
+              
 
 
               
