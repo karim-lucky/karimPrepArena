@@ -39,6 +39,7 @@ const Navbar = () => {
 
 // dfdfdd
 // dfdsf
+/////
 
 variant="outline" 
               className="border-green-500 text-primary hover:bg-green-500 hover:text-white"
