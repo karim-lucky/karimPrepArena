@@ -23,7 +23,7 @@ const Navbar = () => {
               onClick={() => router.push("/")}
             >
             KairmPrep Arena
-            
+
             </span>
           </div>
           
@@ -38,6 +38,10 @@ const Navbar = () => {
               onClick={() => router.push("/login")}
             >
               Log In
+
+
+
+              
             </Button>
             <Button 
               className="bg-green-500 hover:bg-green-700 text-white"
