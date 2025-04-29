@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AuthProvider } from "./lib/auth-context";
+import Navbar from "./components/Navbar";
 // import "./globals.css";
 
  
@@ -22,7 +24,11 @@ export default function RootLayout({
       <body
         
       >
+        <AuthProvider>
+          <Navbar></Navbar>
+
         {children}
+        </AuthProvider>
       </body>
     </html>
   );
