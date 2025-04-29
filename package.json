@@ -9,13 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.0.1",
+    "@radix-ui/react-label": "^2.1.4",
+    "@radix-ui/react-menubar": "^1.1.12",
+    "@radix-ui/react-navigation-menu": "^1.2.10",
+    "@radix-ui/react-progress": "^1.1.4",
     "@radix-ui/react-slot": "^1.2.0",
+    "@radix-ui/react-toast": "^1.2.11",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.501.0",
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "react-hook-form": "^7.56.1",
+    "recharts": "^2.15.3",
+    "tailwind-merge": "^3.2.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
