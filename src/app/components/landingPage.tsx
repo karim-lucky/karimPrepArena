@@ -12,7 +12,6 @@ import Footer from "./Footer";
 const LandingPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
       <HeroSection />
       <FeaturesSection />
       <TestimonialsSection />
