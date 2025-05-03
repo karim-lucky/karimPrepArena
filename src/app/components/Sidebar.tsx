@@ -24,23 +24,23 @@ interface SidebarItem {
 
 const studentItems: SidebarItem[] = [
   { title: "Dashboard", href: "/", icon: LayoutDashboard },
-  { title: "Available Tests", href: "/tests", icon: FileText },
-  { title: "My Enrollments", href: "/enrollments", icon: CheckSquare },
-  { title: "Test History", href: "/history", icon: History },
-  { title: "My Achievements", href: "/achievements", icon: Award },
-  { title: "Payments", href: "/payments", icon: Wallet },
-  { title: "Profile", href: "/profile", icon: User },
-  { title: "Settings", href: "/settings", icon: Settings },
+  { title: "Available Tests", href: "/student/avaliableTest", icon: FileText },
+  { title: "My Enrollments", href: "/student/enrolment", icon: CheckSquare },
+  { title: "Test History", href: "/studnet/history", icon: History },
+  { title: "My Achievements", href: "/studnet/achievements", icon: Award },
+  { title: "Payments", href: "/student/studentPayment", icon: Wallet },
+  { title: "Profile", href: "/student/profile", icon: User },
+  { title: "Settings", href: "/student/settings", icon: Settings },
 ];
 
 const adminItems: SidebarItem[] = [
-  { title: "Admin Dashboard", href: "/adm", icon: LayoutDashboard },
-  { title: "Manage Tests", href: "/adm/tests", icon: FileText },
-  { title: "Enrollment Approvals", href: "/adm/approvals", icon: CheckSquare },
-  { title: "Students", href: "/adm/students", icon: Users },
-  { title: "Results & Reports", href: "/adm/reports", icon: BookCheck },
-  { title: "Payments", href: "/adm/payments", icon: Wallet },
-  { title: "Settings", href: "/adm/settings", icon: Settings },
+  { title: "Admin Dashboard", href: "/admin-dashboard", icon: LayoutDashboard },
+  { title: "Manage Tests", href: "/admin/adminTests", icon: FileText },
+  { title: "Enrollment Approvals", href: "/admin/adminApprovals", icon: CheckSquare },
+  { title: "Students", href: "/admin/students", icon: Users },
+  { title: "Results & Reports", href: "/admin/adminReports", icon: BookCheck },
+  { title: "Payments", href: "/admin/adminPayments", icon: Wallet },
+  { title: "Settings", href: "/admin/adminSetting", icon: Settings },
 ];
 
 const Sidebar = () => {

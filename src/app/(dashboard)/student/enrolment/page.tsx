@@ -1,5 +1,7 @@
+
+"use client";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+ 
 import { 
   Search, 
   Filter, 
@@ -199,17 +201,17 @@ const renderEnrollments = (enrollments: any[]) => {
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button variant="outline" asChild>
-              <Link to={`/test/${test.id}`}>
+              <a href={`/test/${test.id}`}>
                 <FileText className="mr-2 h-4 w-4" />
                 Test Details
-              </Link>
+              </a>
             </Button>
             {enrollment.status === 'approved' && (
               <Button asChild>
-                <Link to={`/test-session/${test.id}`}>
+                <a href={`/test-session/${test.id}`}>
                   <Timer className="mr-2 h-4 w-4" />
                   Take Test
-                </Link>
+                </a>
               </Button>
             )}
             {enrollment.status === 'pending' && (
