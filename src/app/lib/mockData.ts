@@ -224,7 +224,7 @@ export const mockEnrollments: Enrollment[] = [
     createdAt: '2025-06-02T00:00:00Z',
   },
   {
-    id: '4',
+    id: '5',
     userId: '3',
     testId: '3',
     status: 'approved',
@@ -232,7 +232,7 @@ export const mockEnrollments: Enrollment[] = [
     createdAt: '2025-06-07T00:00:00Z',
   },
   {
-    id: '4',
+    id: '6',
     userId: '3',
     testId: '5',
     status: 'rejected',
@@ -240,7 +240,7 @@ export const mockEnrollments: Enrollment[] = [
     createdAt: '2025-06-07T00:00:00Z',
   },
   {
-    id: '4',
+    id: '7',
     userId: '2',
     testId: '2',
     status: 'pending',
@@ -248,7 +248,7 @@ export const mockEnrollments: Enrollment[] = [
     createdAt: '2025-06-07T00:00:00Z',
   },
   {
-    id: '4',
+    id: '7',
     userId: '2',
     testId: '2',
     status: 'pending',

@@ -2,7 +2,8 @@
 
 "use client";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+ 
+import { useRouter } from "next/navigation";
 import { 
   Calendar, 
   Clock, 
@@ -35,6 +36,7 @@ import { mockTests, mockEnrollments } from "@/app/lib/mockData";
 import { useAuth } from "@/app/lib/auth-context";
 import { Test, Enrollment } from "@/app/lib/types";
 import { toast } from "@/app/components/ui/use-toast";
+import { useParams } from 'next/navigation';
 
 const PaymentForm = ({ 
   test, 
@@ -110,18 +112,22 @@ const PaymentForm = ({
 };
 
 const TestDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useParams();
+  const id = params.id;
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   
   const [test, setTest] = useState<Test | null>(null);
   const [enrollment, setEnrollment] = useState<Enrollment | null>(null);
   const [paymentDialogOpen, setPaymentDialogOpen] = useState(false);
   
   useEffect(() => {
+    console.log("Test ID:", id);
     if (id) {
       const foundTest = mockTests.find(t => t.id === id);
       if (foundTest) {
+        console.log("Test foundjjjjjjjjjjjjjjjjjjj:", foundTest);
+        console.log(foundTest);
         setTest(foundTest);
         
         if (user) {
@@ -133,16 +139,16 @@ const TestDetail = () => {
           }
         }
       } else {
-        navigate('/tests');
+        router.push('/tests');
       }
     }
-  }, [id, user, navigate]);
+  }, [id, user, router.push]);
   
   const handleEnroll = () => {
-    if (!user) {
-      navigate('/login', { state: { from: `/test/${id}` } });
-      return;
-    }
+    // if (!user) {
+    //   router.push('/login', { state: { from: `/test/${id}` } });
+    //   return;
+    // }
     
     setPaymentDialogOpen(true);
   };
@@ -164,7 +170,7 @@ const TestDetail = () => {
   };
   
   const handleStartTest = () => {
-    navigate(`/test-session/${test?.id}`);
+    router.push(`/test-session/${test?.id}`);
   };
   
   if (!test) {
@@ -383,7 +389,7 @@ const TestDetail = () => {
       </div>
       
       <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md bg-white p-6 rounded-lg shadow-lg">
           <DialogHeader>
             <DialogTitle>Complete Payment</DialogTitle>
             <DialogDescription>

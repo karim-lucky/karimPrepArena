@@ -1,6 +1,6 @@
 
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
  
 import { 
   Search, 
@@ -31,6 +31,11 @@ const StudentEnrollments = () => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   
+  useEffect(() => { 
+    console.log("User data:", user);
+    // Fetch user data or perform any side effects here
+  }
+  , [user]);
   // Get enrollments for current user
   const userEnrollments = user 
     ? getAllEnrollments().filter(item => item.user.id === user.id)
@@ -208,7 +213,7 @@ const renderEnrollments = (enrollments: any[]) => {
             </Button>
             {enrollment.status === 'approved' && (
               <Button asChild>
-                <a href={`/test-session/${test.id}`}>
+                <a href={`/testSession/${test.id}`}>
                   <Timer className="mr-2 h-4 w-4" />
                   Take Test
                 </a>

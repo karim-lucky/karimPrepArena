@@ -190,7 +190,7 @@ const AvailableTests = () => {
                       </a>
                     </Button>
                     <Button asChild>
-                      <a href={`/test/${test.id}`}>
+                      <a href={`/testDetail/${test.id}`}>
                         Enroll Now
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </a>
@@ -257,7 +257,7 @@ const AvailableTests = () => {
                           </a>
                         </Button>
                         <Button size="sm" asChild>
-                          <a href={`/test/${test.id}`}>
+                          <a href={`/testDetail/${test.id}`}>
                             Enroll
                           </a>
                         </Button>

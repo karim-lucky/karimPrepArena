@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+// import { useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -25,6 +26,7 @@ import { useAuth } from "@/app/lib/auth-context";
 import { mockTests, mockQuestions } from "@/app/lib/mockData";
 import { Test, Question } from "@/app/lib/types";
 import { toast } from "@/app/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface Answer {
   questionId: string;
@@ -33,9 +35,10 @@ interface Answer {
 }
 
 const TestSession = () => {
-  const { id } = useParams<{ id: string }>();
+  // const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
   
   const [test, setTest] = useState<Test | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -49,6 +52,11 @@ const TestSession = () => {
   
   // Load test and questions
   useEffect(() => {
+    // if (!user) {
+    //   router.push('/login');
+    //   return;
+    // }
+    console.log("User data:", user);
     if (id) {
       const foundTest = mockTests.find(t => t.id === id);
       if (foundTest) {
@@ -66,10 +74,10 @@ const TestSession = () => {
         }));
         setAnswers(initialAnswers);
       } else {
-        navigate('/tests');
+        router.push('/tests');
       }
     }
-  }, [id, navigate]);
+  }, [id, router.push]);
   
   // Timer countdown
   useEffect(() => {
@@ -153,8 +161,8 @@ const TestSession = () => {
       completedAt: new Date().toISOString(),
     }));
     
-    // Navigate to results page
-    navigate(`/test-result/${id}`);
+    // router.push to results page
+    router.push(`/testResult/${id}`);
   };
   
   // Format time

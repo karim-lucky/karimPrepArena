@@ -53,14 +53,14 @@ const Login = () => {
       // Mock login condition — replace with actual login logic
       if (email === "admin@gmail.com") {
         // Redirect to admin dashboard
-        router.push("/admin-dashboard");
+        router.push("/admin/admin-dashboard");
       } else {
         // Redirect to student dashboard
-        router.push("/student-dashboard");
+        router.push("student/student-dashboard");
       }
 
       // You can also call `login(email, password)` if using your auth context
-      // await login(email, password);
+      await login(email, password);
 
     } catch (error) {
       console.error("Login error:", error);

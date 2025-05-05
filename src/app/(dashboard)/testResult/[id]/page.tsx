@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useParams,   Link } from "react-router-dom";
+import {     a } from "react-router-dom";
+import { useParams } from "next/navigation";
 import { 
   CheckCircle, 
   XCircle, 
@@ -174,10 +175,10 @@ const TestResult = () => {
           </CardContent>
           <CardFooter className="flex flex-wrap gap-4 justify-center">
             <Button variant="outline" className="flex items-center gap-2" asChild>
-              <Link to="/">
+              <a href="/">
                 <Home className="h-4 w-4" />
                 Return to Dashboard
-              </Link>
+              </a>
             </Button>
             <Button variant="outline" className="flex items-center gap-2">
               <Download className="h-4 w-4" />
