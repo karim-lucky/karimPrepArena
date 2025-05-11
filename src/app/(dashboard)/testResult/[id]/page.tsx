@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import {     a } from "react-router-dom";
+// import {     a } from "react-router-dom";
 import { useParams } from "next/navigation";
 import { 
   CheckCircle, 
@@ -357,16 +357,16 @@ const TestResult = () => {
                     
                     <div className="space-y-2">
                       {question.options.map((option, optionIndex) => {
-                        const isSelected = answer.selectedOptionIndex === optionIndex;
+                        // const isSelected = answer.selectedOptionIndex === optionIndex;
                         const isCorrectOption = question.correctOptionIndex === optionIndex;
                         
                         let optionClass = '';
                         
-                        if (isSelected) {
-                          optionClass = 'test-option-incorrect';
-                        } else if (isCorrectOption) {
-                          optionClass = 'test-option-correct';
-                        }
+                        // if (isSelected) {
+                        //   optionClass = 'test-option-incorrect';
+                        // } else if (isCorrectOption) {
+                        //   optionClass = 'test-option-correct';
+                        // }
                         
                         return (
                           <div
@@ -378,12 +378,12 @@ const TestResult = () => {
                             </div>
                             <span>{option}</span>
                             
-                            {isSelected && (
+                            {/* {isSelected && (
                               <XCircle className="h-5 w-5 text-destructive ml-auto" />
                             )}
                             {!isSelected && isCorrectOption && (
                               <CheckCircle className="h-5 w-5 text-success ml-auto" />
-                            )}
+                            )} */}
                           </div>
                         );
                       })}

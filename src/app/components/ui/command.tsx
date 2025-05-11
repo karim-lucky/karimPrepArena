@@ -5,7 +5,10 @@ import { Search } from "lucide-react"
 
 import { cn } from "@/app/lib/utils"
 
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+// import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog } from "./dialog"
+// import { Dialog } from "@radix-ui/react-dialog"
+import { DialogContent } from "./dialog"
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,

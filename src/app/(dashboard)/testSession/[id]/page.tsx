@@ -1,16 +1,19 @@
-"use client";
+
+"use client"
 import { useState, useEffect, useRef } from "react";
-// import { useParams } from "react-router-dom";
+// import { useParams  } from "react-router-dom";
 import { useParams } from "next/navigation";
 import { 
   ArrowLeft, 
   ArrowRight, 
   CheckSquare, 
   Clock, 
-  AlertTriangle 
+  AlertTriangle,
+  Check,
+  Circle
 } from "lucide-react";
+// import { Button } from "@/components/ui/button";
 import { Button } from "@/app/components/ui/button";
-// import { Button } from "@/app/app/components/ui/button";
 import { Progress } from "@/app/components/ui/progress";
 import {
   Dialog,
@@ -26,6 +29,12 @@ import { useAuth } from "@/app/lib/auth-context";
 import { mockTests, mockQuestions } from "@/app/lib/mockData";
 import { Test, Question } from "@/app/lib/types";
 import { toast } from "@/app/components/ui/use-toast";
+import { useIsMobile } from "@/app/hooks/use-mobile";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger
+} from "@/app/components/ui/sheet";
 import { useRouter } from "next/navigation";
 
 interface Answer {
@@ -35,10 +44,10 @@ interface Answer {
 }
 
 const TestSession = () => {
-  // const { id } = useParams<{ id: string }>();
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
   const router = useRouter();
+  const isMobile = useIsMobile();
   
   const [test, setTest] = useState<Test | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -52,11 +61,8 @@ const TestSession = () => {
   
   // Load test and questions
   useEffect(() => {
-    // if (!user) {
-    //   router.push('/login');
-    //   return;
-    // }
-    console.log("User data:", user);
+    console.log("dddddddddddddddddddd")
+    console.log(id)
     if (id) {
       const foundTest = mockTests.find(t => t.id === id);
       if (foundTest) {
@@ -192,6 +198,47 @@ const TestSession = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const currentAnswer = answers[currentQuestionIndex];
   
+  // Question Navigation Components
+  const QuestionNumbers = () => (
+    <div className="flex flex-wrap gap-2">
+      {questions.map((_, index) => {
+        const isAnswered = answers[index].selectedOptionIndex !== null;
+        const isCurrent = index === currentQuestionIndex;
+        
+        return (
+          <Button
+            key={index}
+            variant={isCurrent ? "default" : isAnswered ? "secondary" : "outline"}
+            className={`w-10 h-10 p-0 relative ${isCurrent ? 'ring-2 ring-primary ring-offset-2' : ''}`}
+            onClick={() => setCurrentQuestionIndex(index)}
+          >
+            {isAnswered && (
+              <Check className="absolute top-0 right-0 h-3 w-3 -mt-1 -mr-1 bg-success text-success-foreground rounded-full p-[1px]" />
+            )}
+            {index + 1}
+          </Button>
+        );
+      })}
+    </div>
+  );
+  
+  const QuestionLegend = () => (
+    <div className="mt-6 space-y-2">
+      <div className="flex items-center gap-2 text-sm">
+        <div className="w-4 h-4 bg-primary rounded-md"></div>
+        <span>Current question</span>
+      </div>
+      <div className="flex items-center gap-2 text-sm">
+        <div className="w-4 h-4 bg-secondary rounded-md"></div>
+        <span>Answered</span>
+      </div>
+      <div className="flex items-center gap-2 text-sm">
+        <div className="w-4 h-4 border rounded-md"></div>
+        <span>Unanswered</span>
+      </div>
+    </div>
+  );
+  
   return (
     <div className="min-h-screen flex flex-col">
       {/* Test header with timer */}
@@ -227,100 +274,165 @@ const TestSession = () => {
         </div>
       </div>
       
-      {/* Question area */}
+      {/* Main test area - split into two columns on larger screens */}
       <div className="flex-1 bg-muted/50">
         <div className="container py-8">
-          <Card className="max-w-4xl mx-auto">
-            <CardContent className="p-6">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">
-                    Question {currentQuestionIndex + 1} of {questions.length}
-                  </span>
-                  <span className="text-sm font-medium">
-                    {currentQuestion.points} points
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            {/* Question navigation sidebar - visible on larger screens */}
+            <div className="hidden lg:block lg:col-span-3">
+              <div className="bg-background p-4 rounded-lg border shadow-sm">
+                <h2 className="text-lg font-medium mb-4">Questions</h2>
+                <QuestionNumbers />
+                <QuestionLegend />
                 
-                <div className="p-4 border rounded-md bg-background">
-                  <h2 className="text-lg font-medium mb-2">{currentQuestion.text}</h2>
-                </div>
-                
-                <div className="space-y-3">
-                  {currentQuestion.options.map((option, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 border rounded-md cursor-pointer transition-colors test-option-hover ${
-                        currentAnswer.selectedOptionIndex === index ? 'test-option-selected' : ''
-                      }`}
-                      onClick={() => handleSelectAnswer(index)}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${
-                          currentAnswer.selectedOptionIndex === index 
-                            ? 'bg-primary border-primary text-primary-foreground' 
-                            : 'border-muted-foreground'
-                        }`}>
-                          {String.fromCharCode(65 + index)}
-                        </div>
-                        <span>{option}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                
-                <div className="flex items-center justify-between pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={goToPreviousQuestion}
-                    disabled={currentQuestionIndex === 0}
-                    className="flex items-center gap-2"
+                <div className="mt-6">
+                  <Button 
+                    variant="destructive" 
+                    className="w-full"
+                    onClick={() => setConfirmEndDialogOpen(true)}
                   >
-                    <ArrowLeft className="h-4 w-4" />
-                    Previous
+                    Submit Test
                   </Button>
-                  
-                  {currentQuestionIndex < questions.length - 1 ? (
-                    <Button
-                      onClick={goToNextQuestion}
-                      className="flex items-center gap-2"
-                    >
-                      Next
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={() => setConfirmEndDialogOpen(true)}
-                      className="flex items-center gap-2"
-                    >
-                      Finish Test
-                      <CheckSquare className="h-4 w-4" />
-                    </Button>
-                  )}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-      
-      {/* Question navigation */}
-      <div className="sticky bottom-0 bg-background border-t">
-        <div className="container py-4">
-          <div className="flex items-center justify-center flex-wrap gap-2 max-w-2xl mx-auto">
-            {questions.map((_, index) => (
-              <Button
-                key={index}
-                variant={index === currentQuestionIndex ? "default" : answers[index].selectedOptionIndex !== null ? "secondary" : "outline"}
-                className="w-10 h-10 p-0"
-                onClick={() => setCurrentQuestionIndex(index)}
-              >
-                {index + 1}
-              </Button>
-            ))}
+            </div>
+            
+            {/* Question and answer area */}
+            <div className="lg:col-span-9">
+              <Card className="shadow-sm">
+                <CardContent className="p-6">
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">
+                        Question {currentQuestionIndex + 1} of {questions.length}
+                      </span>
+                      <span className="text-sm font-medium">
+                        {currentQuestion.points} points
+                      </span>
+                    </div>
+                    
+                    <div className="p-4 border rounded-md bg-background">
+                      <h2 className="text-lg font-medium mb-2">{currentQuestion.text}</h2>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      {currentQuestion.options.map((option:any, index:any) => (
+                        <div
+                          key={index}
+                          className={`p-4 border rounded-md cursor-pointer transition-colors hover:bg-accent ${
+                            currentAnswer.selectedOptionIndex === index ? 'bg-secondary text-secondary-foreground' : ''
+                          }`}
+                          onClick={() => handleSelectAnswer(index)}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center border ${
+                              currentAnswer.selectedOptionIndex === index 
+                                ? 'bg-primary border-primary text-primary-foreground' 
+                                : 'border-muted-foreground'
+                            }`}>
+                              {String.fromCharCode(65 + index)}
+                            </div>
+                            <span>{option}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="flex items-center justify-between pt-4">
+                      <Button
+                        variant="outline"
+                        onClick={goToPreviousQuestion}
+                        disabled={currentQuestionIndex === 0}
+                        className="flex items-center gap-2"
+                      >
+                        <ArrowLeft className="h-4 w-4" />
+                        Previous
+                      </Button>
+                      
+                      {currentQuestionIndex < questions.length - 1 ? (
+                        <Button
+                          onClick={goToNextQuestion}
+                          className="flex items-center gap-2"
+                        >
+                          Next
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => setConfirmEndDialogOpen(true)}
+                          variant="destructive"
+                          className="flex items-center gap-2"
+                        >
+                          Finish Test
+                          <CheckSquare className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
+      
+      {/* Mobile: Question navigation Sheet */}
+      {isMobile && (
+        <div className="sticky bottom-0 bg-background border-t">
+          <div className="container py-4">
+            <div className="grid grid-cols-2 gap-4">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="w-full">
+                    Questions ({currentQuestionIndex + 1}/{questions.length})
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-[85%] sm:w-[385px]">
+                  <div className="py-6">
+                    <h2 className="text-lg font-medium mb-4">Questions</h2>
+                    <QuestionNumbers />
+                    <QuestionLegend />
+                  </div>
+                </SheetContent>
+              </Sheet>
+              
+              <Button 
+                variant="destructive" 
+                className="w-full"
+                onClick={() => setConfirmEndDialogOpen(true)}
+              >
+                Submit Test
+              </Button>
+            </div>
+            
+            <div className="flex items-center justify-between mt-4">
+              <Button
+                variant="outline"
+                onClick={goToPreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+                size="sm"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Prev
+              </Button>
+              
+              <div className="text-sm font-medium">
+                {currentQuestionIndex + 1} / {questions.length}
+              </div>
+              
+              <Button
+                variant="outline"
+                onClick={goToNextQuestion}
+                disabled={currentQuestionIndex === questions.length - 1}
+                size="sm"
+              >
+                Next
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Confirm end test dialog */}
       <Dialog open={confirmEndDialogOpen} onOpenChange={setConfirmEndDialogOpen}>

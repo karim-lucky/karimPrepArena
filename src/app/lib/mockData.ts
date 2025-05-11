@@ -1,4 +1,3 @@
-
 import { User, Test, Question, Enrollment, TestAttempt, Notification } from "./types";
 
 // Generate a random ID
@@ -29,6 +28,22 @@ export const mockUsers: User[] = [
     role: 'admin',
     profileImage: '/placeholder.svg',
     createdAt: '2022-12-01T00:00:00Z',
+  },
+  {
+    id: '4',
+    name: 'Sarah Johnson',
+    email: 'sarah@example.com',
+    role: 'student',
+    profileImage: '/placeholder.svg',
+    createdAt: '2023-02-10T00:00:00Z',
+  },
+  {
+    id: '5',
+    name: 'Michael Brown',
+    email: 'michael@example.com',
+    role: 'student',
+    profileImage: '/placeholder.svg',
+    createdAt: '2023-03-15T00:00:00Z',
   },
 ];
 
@@ -209,7 +224,7 @@ export const mockEnrollments: Enrollment[] = [
   },
   {
     id: '2',
-    userId: '3',
+    userId: '1',
     testId: '2',
     status: 'pending',
     paymentStatus: 'completed',
@@ -217,53 +232,44 @@ export const mockEnrollments: Enrollment[] = [
   },
   {
     id: '3',
-    userId: '3',
+    userId: '2',
     testId: '1',
-    status: 'pending',
+    status: 'approved',
     paymentStatus: 'completed',
     createdAt: '2025-06-02T00:00:00Z',
   },
   {
-    id: '5',
-    userId: '3',
-    testId: '3',
-    status: 'approved',
+    id: '4',
+    userId: '4',
+    testId: '1',
+    status: 'pending',
     paymentStatus: 'completed',
-    createdAt: '2025-06-07T00:00:00Z',
+    createdAt: '2025-05-11T08:30:00Z', // Today's date
+  },
+  {
+    id: '5',
+    userId: '5',
+    testId: '3',
+    status: 'pending',
+    paymentStatus: 'completed',
+    createdAt: '2025-05-11T09:45:00Z', // Today's date
   },
   {
     id: '6',
-    userId: '3',
+    userId: '2',
+    testId: '4',
+    status: 'pending',
+    paymentStatus: 'completed',
+    createdAt: '2025-05-10T14:20:00Z',
+  },
+  {
+    id: '7',
+    userId: '1',
     testId: '5',
-    status: 'rejected',
-    paymentStatus: 'completed',
-    createdAt: '2025-06-07T00:00:00Z',
-  },
-  {
-    id: '7',
-    userId: '2',
-    testId: '2',
     status: 'pending',
-    paymentStatus: 'completed',
-    createdAt: '2025-06-07T00:00:00Z',
+    paymentStatus: 'pending',
+    createdAt: '2025-05-11T07:15:00Z', // Today's date, but payment pending
   },
-  {
-    id: '7',
-    userId: '2',
-    testId: '2',
-    status: 'pending',
-    paymentStatus: 'completed',
-    createdAt: '2025-06-07T00:00:00Z',
-  },
-  {
-    id: '4',
-    userId: '2',
-    testId: '2',
-    status: 'pending',
-    paymentStatus: 'completed',
-    createdAt: '2025-06-07T00:00:00Z',
-  },
-  
 ];
 
 // Mock test attempts
@@ -431,7 +437,7 @@ export const getAllEnrollments = () =>
 
 export const getPendingApprovals = () =>
   mockEnrollments
-    .filter(enrollment => enrollment.status === 'pending' && enrollment.paymentStatus === 'completed')
+    .filter(enrollment => enrollment.status === 'pending')
     .map(enrollment => ({
       enrollment,
       user: mockUsers.find(user => user.id === enrollment.userId),

@@ -1,8 +1,9 @@
 
-"use client";
-import React, { use, useState } from 'react';
+"use client"
+import React, { useState } from 'react';
 import { getPendingApprovals } from '@/app/lib/mockData';
 import { toast } from "@/app/components/ui/use-toast";
+import { Check, X, UserCheck, UserX } from "lucide-react";
 import { 
   Table, 
   TableBody, 
@@ -13,16 +14,10 @@ import {
 } from "@/app/components/ui/table";
 import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/app/components/ui/badge";
-import { useEffect } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card";
 
 const AdminApprovals = () => {
   const [items, setItems] = useState(getPendingApprovals());
-
-  useEffect(() => { 
-    // Fetch pending approvals from the server or API
-    // setItems(fetchedItems);
-    console.log("Fetching pending approvals...", items);
-  }, []);
 
   const handleApprove = (enrollmentId: string) => {
     const updatedItems = items.map(item =>
@@ -71,6 +66,42 @@ const AdminApprovals = () => {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Pending Enrollment Approvals</h1>
       
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Total Pending</CardTitle>
+            <CardDescription>Awaiting approval</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{items.length}</div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Payment Verified</CardTitle>
+            <CardDescription>Ready for approval</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{items.filter(item => item.enrollment.paymentStatus === 'completed').length}</div>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-lg">Today's Requests</CardTitle>
+            <CardDescription>New registrations today</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-3xl font-bold">{items.filter(item => {
+              const today = new Date();
+              const createdDate = new Date(item.enrollment.createdAt);
+              return today.toDateString() === createdDate.toDateString();
+            }).length}</div>
+          </CardContent>
+        </Card>
+      </div>
+      
       {items.length === 0 ? (
         <div className="bg-muted p-8 rounded-lg text-center">
           <h3 className="text-lg font-medium">No Pending Approvals</h3>
@@ -91,7 +122,7 @@ const AdminApprovals = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {items.map((item) => (
+              {items.map((item:any) => (
                 <TableRow key={item.enrollment.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
@@ -115,10 +146,15 @@ const AdminApprovals = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    {new Date(item.enrollment.createdAt).toLocaleDateString()}
+                    <div className="flex flex-col">
+                      <span>{new Date(item.enrollment.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {new Date(item.enrollment.createdAt).toLocaleTimeString()}
+                      </span>
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={item.enrollment.paymentStatus === 'completed' ? 'success' : 'outline'}>
+                    <Badge variant={item.enrollment.paymentStatus === 'completed' ? 'secondary' : 'outline'}>
                       {item.enrollment.paymentStatus.charAt(0).toUpperCase() + item.enrollment.paymentStatus.slice(1)}
                     </Badge>
                   </TableCell>
@@ -128,7 +164,9 @@ const AdminApprovals = () => {
                         size="sm" 
                         onClick={() => handleApprove(item.enrollment.id)}
                         disabled={item.enrollment.status === 'approved'}
+                        className="gap-1"
                       >
+                        <Check className="h-4 w-4" />
                         Approve
                       </Button>
                       <Button 
@@ -136,7 +174,9 @@ const AdminApprovals = () => {
                         variant="destructive"
                         onClick={() => handleReject(item.enrollment.id)}
                         disabled={item.enrollment.status === 'rejected'}
+                        className="gap-1"
                       >
+                        <X className="h-4 w-4" />
                         Reject
                       </Button>
                     </div>

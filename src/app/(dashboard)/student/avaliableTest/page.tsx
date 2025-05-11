@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react";
-import { a } from "react-router-dom";
+ 
 import { 
   Search, 
   Filter, 
@@ -66,12 +66,12 @@ const AvailableTests = () => {
     );
   }
 
-  const handleViewDetails = (testId) => {
-    toast({
-      title: "Test details opened",
-      description: "You are viewing the details for this test.",
-    });
-  };
+  // const handleViewDetails = (testId) => {
+  //   toast({
+  //     title: "Test details opened",
+  //     description: "You are viewing the details for this test.",
+  //   });
+  // };
 
   return (
     <div className="space-y-6">
@@ -184,7 +184,9 @@ const AvailableTests = () => {
                   </CardContent>
                   <CardFooter className="flex justify-between">
                     <Button variant="outline" asChild>
-                      <a href={`/test/${test.id}`} onClick={() => handleViewDetails(test.id)}>
+                      <a href={`/test/${test.id}`} 
+                      // onClick={() => handleViewDetails(test.id)}
+                      >
                         <FileText className="mr-2 h-4 w-4" />
                         Details
                       </a>

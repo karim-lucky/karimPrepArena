@@ -89,7 +89,7 @@ const mockAchievements = [
     id: "8",
     name: "Goal Achiever",
     description: "Set and achieved 3 personal score goals",
-    icon: Target,
+    // icon: Target,
     earned: false,
     progress: 33,
     color: "bg-orange-500",
@@ -156,7 +156,7 @@ const StudentAchievements = () => {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Certificates</CardTitle>
-            <Certificate className="h-4 w-4 text-muted-foreground" />
+            {/* <Certificate className="h-4 w-4 text-muted-foreground" /> */}
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{mockCertificates.length}</div>
@@ -204,7 +204,7 @@ const StudentAchievements = () => {
               {earnedAchievements.map((achievement) => (
                 <Card key={achievement.id} className="overflow-hidden border-0 shadow-md">
                   <div className={`p-4 ${achievement.color} text-white`}>
-                    <achievement.icon className="h-8 w-8" />
+                    {/* <achievement.icon className="h-8 w-8" /> */}
                   </div>
                   <CardContent className="p-4">
                     <h3 className="font-semibold">{achievement.name}</h3>
@@ -213,7 +213,7 @@ const StudentAchievements = () => {
                     </p>
                     <div className="mt-3 flex items-center text-xs text-muted-foreground">
                       <Calendar className="h-3 w-3 mr-1" />
-                      <span>Earned on {new Date(achievement.date).toLocaleDateString()}</span>
+                      {/* <span>Earned on {new Date(achievement.date).toLocaleDateString()}</span> */}
                     </div>
                   </CardContent>
                 </Card>
@@ -246,7 +246,7 @@ const StudentAchievements = () => {
                 <Card key={achievement.id} className="overflow-hidden border shadow">
                   <div className="flex p-4">
                     <div className={`flex h-12 w-12 items-center justify-center rounded-full ${achievement.color} text-white`}>
-                      <achievement.icon className="h-6 w-6" />
+                      {/* <achievement.icon className="h-6 w-6" /> */}
                     </div>
                     <div className="ml-4 flex-1">
                       <h3 className="font-semibold">{achievement.name}</h3>
@@ -291,7 +291,7 @@ const StudentAchievements = () => {
               {mockCertificates.map((certificate) => (
                 <Card key={certificate.id} className="overflow-hidden border shadow">
                   <div className="bg-primary/10 p-6 flex flex-col items-center justify-center text-center">
-                    <Certificate className="h-12 w-12 text-primary mb-3" />
+                    {/* <Certificate className="h-12 w-12 text-primary mb-3" /> */}
                     <h3 className="font-bold text-lg">{certificate.name}</h3>
                     <Badge className="mt-2">
                       {certificate.category}
@@ -311,7 +311,7 @@ const StudentAchievements = () => {
             </div>
           ) : (
             <div className="text-center py-8">
-              <Certificate className="mx-auto h-12 w-12 text-muted-foreground" />
+              {/* <Certificate className="mx-auto h-12 w-12 text-muted-foreground" /> */}
               <h3 className="mt-4 text-lg font-medium">No certificates yet</h3>
               <p className="mt-2 text-sm text-muted-foreground">
                 Complete tests with passing scores to earn certificates.
@@ -349,7 +349,7 @@ const StudentAchievements = () => {
                   </div>
                   <div className="flex items-center gap-3">
                     <Avatar>
-                      <AvatarImage src={entry.avatar} />
+                      {/* <AvatarImage src={entry.avatar} /> */}
                       <AvatarFallback>{entry.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>

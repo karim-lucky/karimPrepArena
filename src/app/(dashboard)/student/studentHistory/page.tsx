@@ -1,7 +1,7 @@
 
 "use client";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { 
   Search, 
   Filter, 
@@ -243,7 +243,6 @@ const StudentHistory = () => {
                   <TableRow>
                     <TableHead>Test Name</TableHead>
                     <TableHead>Date</TableHead>
-                    <TableHead>Duration</TableHead>
                     <TableHead>Score</TableHead>
                     <TableHead>Result</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -290,10 +289,10 @@ const StudentHistory = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           <Button variant="outline" size="sm" asChild>
-                            <Link to={`/test-result/${attempt.id}`}>
+                            < a href={`/test-result/${attempt.id}`}>
                               <Eye className="mr-2 h-4 w-4" />
                               View Result
-                            </Link>
+                            </a>
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -310,9 +309,9 @@ const StudentHistory = () => {
                 You haven't taken any tests yet.
               </p>
               <Button className="mt-4" asChild>
-                <Link to="/tests">
+                <a href="/tests">
                   Browse Available Tests
-                </Link>
+                </a>
               </Button>
             </div>
           )}
