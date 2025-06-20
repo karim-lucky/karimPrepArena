@@ -13,27 +13,29 @@ import {
   ArrowDown,
   ChevronRight
 } from "lucide-react";
-import { Button } from "../../components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
  
  
-import { Progress } from "../../components/ui/progress";
+import { Progress } from "@/components/ui/progress";
 import {
-  Table,
+  
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "../../components/ui/table";
-import { Badge } from "../../components/ui/badge";
+} from "@/components/ui/table";
+import { Table } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import { 
   mockTests, 
   mockUsers, 
   getPendingApprovals, 
   getAllEnrollments, 
   getAllStudentPerformance 
-} from "../lib/mockData";
+} from "@/app/lib/mockData";
+ 
 
 const AdminDashboard = () => {
   const [pendingApprovals, setPendingApprovals] = useState(getPendingApprovals());

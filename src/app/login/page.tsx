@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
  
 import { z } from "zod";
-import { Button } from "../components/ui/button";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
+} from "../../components/ui/card";
 import {
   
   FormControl,
@@ -21,9 +21,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../components/ui/form";
-import { Form } from "../components/ui/form";
-import { Input } from "../components/ui/input";
+} from "../../components/ui/form";
+import { Form } from "../../components/ui/form";
+import { Input } from "../../components/ui/input";
  import { useAuth } from "../lib/auth-context";
 
 import { useRouter } from "next/navigation";
@@ -53,10 +53,10 @@ const Login = () => {
       // Mock login condition — replace with actual login logic
       if (email === "admin@gmail.com") {
         // Redirect to admin dashboard
-        router.push("/admin/admin-dashboard");
+        router.push("/dashboard/admin/admin-dashboard");
       } else {
         // Redirect to student dashboard
-        router.push("student/student-dashboard");
+        router.push("/dashboard/student/student-dashboard");
       }
 
       // You can also call `login(email, password)` if using your auth context

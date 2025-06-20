@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
- import { Button } from "./components/ui/button";
+ import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
@@ -12,7 +12,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./components/ui/card";
+} from "../components/ui/card";
  
 import {
   Form,
@@ -21,9 +21,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./components/ui/form";
-import { Input } from "./components/ui/input";
-import { toast } from "./components/ui/use-toast";
+} from "../components/ui/form";
+import { Input } from "../components/ui/input";
+import { toast } from "../components/ui/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),

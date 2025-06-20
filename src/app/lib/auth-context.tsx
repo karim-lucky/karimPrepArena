@@ -2,8 +2,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { User, UserRole } from "./types";
 import { mockUsers } from "./mockData";
- import { Toast } from "../components/ui/toast";
-import { toast } from "../components/ui/use-toast";
+ import { Toast } from "../../components/ui/toast";
+import { toast } from "../../components/ui/use-toast";
 
 interface AuthContextType {
   user: User | null;
