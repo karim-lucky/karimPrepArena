@@ -42,6 +42,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { mockUsers, getAllStudentPerformance } from "@/app/lib/mockData";
+import AddStudentDialog from "@/components/students/adduserModel";
 
 const AdminStudents = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,14 +77,14 @@ const AdminStudents = () => {
           <Button variant="outline" size="icon">
             <Filter className="h-4 w-4" />
           </Button>
-          <Dialog>
+          {/* <Dialog >
             <DialogTrigger asChild>
               <Button>
                 <UserPlus className="mr-2 h-4 w-4" />
                 Add Student
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px] bg-white">
               <DialogHeader>
                 <DialogTitle>Add New Student</DialogTitle>
                 <DialogDescription>
@@ -100,7 +101,8 @@ const AdminStudents = () => {
                 <Button>Add Student</Button>
               </DialogFooter>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
+          <AddStudentDialog></AddStudentDialog>
         </div>
       </div>
       

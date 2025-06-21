@@ -24,23 +24,23 @@ interface SidebarItem {
 
 const studentItems: SidebarItem[] = [
   { title: "Dashboard", href: "/", icon: LayoutDashboard },
-  { title: "Available Tests", href: "/student/avaliableTest", icon: FileText },
-  { title: "My Enrollments", href: "/student/enrolment", icon: CheckSquare },
-  { title: "Test History", href: "/studnet/history", icon: History },
-  { title: "My Achievements", href: "/studnet/achievements", icon: Award },
-  { title: "Payments", href: "/student/studentPayment", icon: Wallet },
-  { title: "Profile", href: "/student/profile", icon: User },
-  { title: "Settings", href: "/student/studentSetting", icon: Settings },
+  { title: "Available Tests", href: "/dashboard/student/avaliableTest", icon: FileText },
+  { title: "My Enrollments", href: "/dashboard/student/enrolment", icon: CheckSquare },
+  { title: "Test History", href: "/dashboard/studnet/history", icon: History },
+  { title: "My Achievements", href: "/dashboard/studnet/achievements", icon: Award },
+  { title: "Payments", href: "/dashboard/student/studentPayment", icon: Wallet },
+  { title: "Profile", href: "/dashboard/student/profile", icon: User },
+  { title: "Settings", href: "/dashboard/student/studentSetting", icon: Settings },
 ];
 
 const adminItems: SidebarItem[] = [
-  { title: "Admin Dashboard", href: "/admin-dashboard", icon: LayoutDashboard },
-  { title: "Manage Tests", href: "/admin/adminTests", icon: FileText },
-  { title: "Enrollment Approvals", href: "/admin/adminApprovals", icon: CheckSquare },
-  { title: "Students", href: "/admin/students", icon: Users },
-  { title: "Results & Reports", href: "/admin/adminReports", icon: BookCheck },
-  { title: "Payments", href: "/admin/adminPayments", icon: Wallet },
-  { title: "Settings", href: "/admin/adminSetting", icon: Settings },
+  { title: "Admin Dashboard", href: "/dashboard/admin/admin-dashboard", icon: LayoutDashboard },
+  { title: "Manage Tests", href: "/dashboard/admin/adminTests", icon: FileText },
+  { title: "Enrollment Approvals", href: "/dashboard/admin/adminApprovals", icon: CheckSquare },
+  { title: "Students", href: "/dashboard/admin/adminStudents", icon: Users },
+  { title: "Results & Reports", href: "/dashboard/admin/adminReports", icon: BookCheck },
+  { title: "Payments", href: "/dashboard/admin/adminPayments", icon: Wallet },
+  { title: "Settings", href: "/dashboard/admin/adminSetting", icon: Settings },
 ];
 
 const Sidebar = () => {
