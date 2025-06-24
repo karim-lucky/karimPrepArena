@@ -43,6 +43,7 @@ import {
 } from "@/components/ui/dialog";
 import { mockUsers, getAllStudentPerformance } from "@/app/lib/mockData";
 import AddStudentDialog from "@/components/students/adduserModel";
+import { useRouter } from "next/navigation";
 
 const AdminStudents = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -53,6 +54,7 @@ const AdminStudents = () => {
     student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     student.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const router=useRouter();
 
   return (
     <div className="space-y-6">
@@ -102,7 +104,11 @@ const AdminStudents = () => {
               </DialogFooter>
             </DialogContent>
           </Dialog> */}
-          <AddStudentDialog></AddStudentDialog>
+          <Button onClick={()=>router.push('/dashboard/student/AddStudents')} variant="outline" >
+            {/* <UserPlus className="h-4 w-4" />   */}
+            Add Student
+          </Button>
+          {/* <AddStudentDialog></AddStudentDialog> */}
         </div>
       </div>
       
