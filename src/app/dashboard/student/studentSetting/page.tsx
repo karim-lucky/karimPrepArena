@@ -1,6 +1,7 @@
 
 "use client";
 import { useState } from "react";
+import { useTheme, Theme } from "@/app/lib/hooks/useTheme";
 import { 
   Save, 
   Bell, 
@@ -54,9 +55,10 @@ const StudentSettings = () => {
     marketingEmails: false,
   });
   
+  const { theme, setTheme } = useTheme();
   const [generalSettings, setGeneralSettings] = useState({
     language: "en",
-    theme: "light",
+    theme: theme,
     timeZone: "Asia/Karachi",
     showScoreInProfile: true,
     enableSoundEffects: true,
@@ -405,7 +407,10 @@ const StudentSettings = () => {
                   <Label htmlFor="theme">Theme</Label>
                   <Select 
                     value={generalSettings.theme}
-                    onValueChange={(value) => setGeneralSettings({...generalSettings, theme: value})}
+                    onValueChange={(value) => {
+                      setGeneralSettings({...generalSettings, theme: value as Theme});
+                      setTheme(value as Theme);
+                    }}
                   >
                     <SelectTrigger id="theme">
                       <SelectValue placeholder="Select theme" />

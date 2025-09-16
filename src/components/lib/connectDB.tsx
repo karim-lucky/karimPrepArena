@@ -12,4 +12,4 @@ export function connectDB(){
     }catch{
         console.log("error db not connected")
     }
-}
+}``

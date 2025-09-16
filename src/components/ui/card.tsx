@@ -9,7 +9,8 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg border bg-card text-card-foreground shadow-sm",
+  // Use Tailwind for theme-aware backgrounds and text
+  "rounded-lg border shadow-sm bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100",
       className
     )}
     {...props}

@@ -1,5 +1,6 @@
 "use client"
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { 
   FileText, 
   Plus, 
@@ -40,8 +41,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { mockTests } from "@/app/lib/mockData";
+import { useRouter } from "next/navigation";
+// import CreateTestModel from "@/components/admin/adminTest/CreateTestModel";
 
 const AdminTests = () => {
+  const [showForm, setShowForm] = useState(false);
   const [tests, setTests] = useState(mockTests);
   const [searchQuery, setSearchQuery] = useState("");
   
@@ -60,6 +64,56 @@ const AdminTests = () => {
     setTests(tests.map(test => 
       test.id === id ? { ...test, isActive: !test.isActive } : test
     ));
+  };
+const router=useRouter()
+  interface TestFormData {
+    title: string;
+    category: string;
+    description: string;
+    duration: string | number;
+    totalQuestions: string | number;
+    passingPercentage: string | number;
+    price: string | number;
+    startDate: string;
+    endDate: string;
+    isActive: string | boolean;
+  }
+  
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<TestFormData>({
+    defaultValues: {
+      title: "",
+      category: "",
+      description: "",
+      duration: "",
+      totalQuestions: "",
+      passingPercentage: "",
+      price: "",
+      startDate: "",
+      endDate: "",
+      isActive: true,
+    },
+  });
+  
+  const onSubmit = (data: TestFormData) => {
+    // Convert numeric fields
+    const newTest = {
+      ...data,
+      duration: Number(data.duration),
+      totalQuestions: Number(data.totalQuestions),
+      passingPercentage: Number(data.passingPercentage),
+      price: Number(data.price),
+      isActive: data.isActive === "true" || data.isActive === true,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+    };
+    setTests([newTest, ...tests]);
+    reset();
+    // Optionally close dialog here
   };
 
   return (
@@ -81,36 +135,17 @@ const AdminTests = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="icon">
-            <Filter className="h-4 w-4" />
-          </Button>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus className="mr-2 h-4 w-4" />
-                Create New Test
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px]">
-              <DialogHeader>
-                <DialogTitle>Create New Test</DialogTitle>
-                <DialogDescription>
-                  Fill out the form below to create a new test. Click save when you're done.
-                </DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <p className="text-muted-foreground text-center">
-                  Form would go here - this is just a demo
-                </p>
-              </div>
-              <DialogFooter>
-                <Button variant="outline">Cancel</Button>
-                <Button>Save Test</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </div>
+        <div>
+  {/* Button to open the form */}
+  <Button onClick={() =>router.push("/dashboard/admin/createTest") }>
+    <Plus className="mr-2 h-4 w-4" /> Create New Test
+  </Button>
+
+  {/* Show form when button clicked */}
+  
+</div>
+
+      
       </div>
       
       <Card>

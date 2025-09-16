@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "./lib/auth-context";
 import Navbar from "../components/Navbar";
-// import "./globals.css";
+import "./globals.css";
+ 
+import ThemeProvider from "@/components/ThemeProvider";
 
  
 
@@ -16,6 +18,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <head>
@@ -24,10 +27,13 @@ export default function RootLayout({
       <body
         
       >
+
         <AuthProvider>
+          <ThemeProvider>
           <Navbar></Navbar>
 
-        {children}
+            {children}
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>
