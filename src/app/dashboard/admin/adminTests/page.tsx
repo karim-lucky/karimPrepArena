@@ -66,56 +66,6 @@ const AdminTests = () => {
     ));
   };
 const router=useRouter()
-  interface TestFormData {
-    title: string;
-    category: string;
-    description: string;
-    duration: string | number;
-    totalQuestions: string | number;
-    passingPercentage: string | number;
-    price: string | number;
-    startDate: string;
-    endDate: string;
-    isActive: string | boolean;
-  }
-  
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<TestFormData>({
-    defaultValues: {
-      title: "",
-      category: "",
-      description: "",
-      duration: "",
-      totalQuestions: "",
-      passingPercentage: "",
-      price: "",
-      startDate: "",
-      endDate: "",
-      isActive: true,
-    },
-  });
-  
-  const onSubmit = (data: TestFormData) => {
-    // Convert numeric fields
-    const newTest = {
-      ...data,
-      duration: Number(data.duration),
-      totalQuestions: Number(data.totalQuestions),
-      passingPercentage: Number(data.passingPercentage),
-      price: Number(data.price),
-      isActive: data.isActive === "true" || data.isActive === true,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
-    setTests([newTest, ...tests]);
-    reset();
-    // Optionally close dialog here
-  };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2">
