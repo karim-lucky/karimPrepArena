@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
  
 import Sidebar from "../../components/Sidebar";
+import { Toaster } from "sonner";
 
 interface AdminLayoutProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
       {/* Main content area */}
       <main className="flex-1 p-6   overflow-y-auto">
         {children}
+          <Toaster richColors position="top-right" />
       </main>
     </div>
   );

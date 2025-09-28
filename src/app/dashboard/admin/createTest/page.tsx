@@ -1,22 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import axios from "axios";
+import { MultiSelect } from "@/components/ui/MultiSelect";
 const subjects = [
-  { id: "1", name: "Biology" },
-  { id: "2", name: "Chemistry" },
-  { id: "3", name: "English" },
-  { id: "4", name: "History" },
-  { id: "5", name: "Geography" },
-  { id: "6", name: "Physics" },
-  { id: "7", name: "Mathematics" },
-  { id: "8", name: "Islamic Studies" },
-];
+  { label: "Math", value: "650fbc27d9e3f99c9df3a111" },
+  { label: "Science", value: "650fbc27d9e3f99c9df3a222" },
+  { label: "English", value: "650fbc27d9e3f99c9df3a333" },
+]
 
 interface TestFormData {
   title: string;
@@ -38,6 +37,7 @@ interface TestFormData {
 
 export default function CreateTestForm() {
   const [tests, setTests] = useState<TestFormData[]>([]);
+  const [loading, setLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -46,10 +46,19 @@ export default function CreateTestForm() {
     formState: { errors },
   } = useForm<TestFormData>({
   });
-  const onSubmit = (data: TestFormData) => {
-
-
-    console.log("Form Data:", data);
+  const onSubmit = async (data: TestFormData) => {
+    setLoading(true);
+    data.createdBy = "650fbc27d9e3f99c9df3a222"; // Replace with actual user ID
+    try {
+      const response = await axios.post("http://localhost:3000/api/test/create", data);
+      setTests([...tests, response.data]);
+      toast.success("Test created successfully!");
+      reset();
+    } catch (error) {
+      toast.error("Failed to create test. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,30 +71,30 @@ export default function CreateTestForm() {
         </div>
         <div>
 
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          className="  rounded  "
-          placeholder="Description"
-          {...register("description", { required: "Description is required" })}
-        />
-        {errors.description && <span className="text-red-500 text-xs">{errors.description.message}</span>}
-          </div>
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            className="  rounded  "
+            placeholder="Description"
+            {...register("description", { required: "Description is required" })}
+          />
+          {errors.description && <span className="text-red-500 text-xs">{errors.description.message}</span>}
+        </div>
 
         {/* <Input type="text" placeholder="Category" {...register("category", { required: true })} /> */}
 
-       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-  <div>
-    <Label htmlFor="duration">Duration (min)</Label>
-    <Input type="number" placeholder="Duration (min)" {...register("duration", { required: "Duration is required", min: 1 })} />
-    {errors.duration && <span className="text-red-500 text-xs">{errors.duration.message}</span>}
-  </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div>
+            <Label htmlFor="duration">Duration (min)</Label>
+            <Input type="number" placeholder="Duration (min)" {...register("duration", { required: "Duration is required", min: 1 })} />
+            {errors.duration && <span className="text-red-500 text-xs">{errors.duration.message}</span>}
+          </div>
 
-  <div>
-    <Label htmlFor="totalQuestions">Total Questions</Label>
-    <Input type="number" placeholder="Total Questions" {...register("totalQuestions", { required: "Total Questions is required", min: 1 })} />
-    {errors.totalQuestions && <span className="text-red-500 text-xs">{errors.totalQuestions.message}</span>}
-  </div>
-</div>
+          <div>
+            <Label htmlFor="totalQuestions">Total Questions</Label>
+            <Input type="number" placeholder="Total Questions" {...register("totalQuestions", { required: "Total Questions is required", min: 1 })} />
+            {errors.totalQuestions && <span className="text-red-500 text-xs">{errors.totalQuestions.message}</span>}
+          </div>
+        </div>
 
 
         <div className=" gap-2">
@@ -97,32 +106,32 @@ export default function CreateTestForm() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-  <div>
-    <Label htmlFor="startDate">Start Date</Label>
-    <Input
-      id="startDate"
-      type="datetime-local"
-      {...register("startDate", { required: "Start Date is required" })}
+          <div>
+            <Label htmlFor="startDate">Start Date</Label>
+            <Input
+              id="startDate"
+              type="datetime-local"
+              {...register("startDate", { required: "Start Date is required" })}
 
-    />
-    {errors.startDate && <span className="text-red-500 text-xs">{errors.startDate.message}</span>}
-  </div>
+            />
+            {errors.startDate && <span className="text-red-500 text-xs">{errors.startDate.message}</span>}
+          </div>
 
-  <div>
-    <Label htmlFor="endDate">End Date</Label>
-    <Input
-      id="endDate"
-      type="datetime-local"
-      {...register("endDate", { required: "End Date is required" })}
-    />
-    {errors.endDate && <span className="text-red-500 text-xs">{errors.endDate.message}</span>}
-  </div>
-</div>
+          <div>
+            <Label htmlFor="endDate">End Date</Label>
+            <Input
+              id="endDate"
+              type="datetime-local"
+              {...register("endDate", { required: "End Date is required" })}
+            />
+            {errors.endDate && <span className="text-red-500 text-xs">{errors.endDate.message}</span>}
+          </div>
+        </div>
 
 
         <div className="flex flex-col gap-2">
           <Label htmlFor="status">Status</Label>
-         
+
           <Controller
             name="isActive"
             control={control}
@@ -173,68 +182,22 @@ export default function CreateTestForm() {
         <div className="flex flex-col gap-2">
           <Label htmlFor="subjects">Subjects</Label>
           <Controller
-
             name="subjects"
             control={control}
             rules={{ required: "At least one subject is required" }}
-            render={({ field }) => {
-              const selectedIds = field.value || [];
-              const availableSubjects = subjects.filter(
-                (s) => !selectedIds.includes(s.id)
-              );
-
-              return (
-                <Select
-                  value=""
-                  onValueChange={(val) => {
-                    if (!selectedIds.includes(val)) {
-                      field.onChange([...selectedIds, val]);
-                    }
-                  }}
-                >
-                  <SelectTrigger className="flex flex-wrap gap-2 min-h-[40px] items-center">
-                    {selectedIds.length > 0 ? (
-                      <div className="flex flex-wrap gap-1">
-                        {selectedIds.map((id) => {
-                          const subj = subjects.find((s) => s.id === id);
-                          if (!subj) return null;
-                          return (
-                            <span
-                              key={id}
-                              className="bg-blue-500 text-white px-2 py-0.5 rounded-full flex items-center gap-1 text-sm"
-                            >
-                              {subj.name}
-                              <button
-                                type="button"
-                                className="ml-1 text-xs"
-                                onClick={(e) => {
-                                  e.stopPropagation(); // prevent opening select
-                                  field.onChange(
-                                    selectedIds.filter((v) => v !== id)
-                                  );
-                                }}
-                              >
-                                ✕
-                              </button>
-                            </span>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <SelectValue placeholder="Choose subjects" />
-                    )}
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableSubjects.map((subj) => (
-                      <SelectItem key={subj.id} value={subj.id}>
-                        {subj.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              );
-            }}
+            render={({ field }) => (
+              <MultiSelect
+                options={subjects}
+                field={field}
+                placeholder="Choose subjects"
+                 
+              />
+            )}
           />
+          {errors.subjects && (
+            <span className="text-red-500 text-xs">Subject is required</span>
+          )}
+
           {errors.subjects && (
             <span className="text-red-500 text-xs">Subject is required</span>
           )}
@@ -252,14 +215,17 @@ export default function CreateTestForm() {
 
         {/* <Input type="text" placeholder="Created By (User ID)" {...register("createdBy", { required: true })} /> */}
 
-       <div className="flex justify-end gap-2">
-  <Button type="button" variant="outline" onClick={() => reset()}>
-    Cancel
-  </Button>
-  <Button type="submit" className="bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600" variant="secondary">
-    Save Test
-  </Button>
-</div> 
+        <div className="flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={() => reset()}>
+            Cancel
+          </Button>
+          <Button type="submit" className="bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-600 flex items-center justify-center" variant="secondary" disabled={loading}>
+            {loading ? (
+              <Loader2 className="animate-spin h-5 w-5 mr-2" />
+            ) : null}
+            {loading ? "Submitting..." : "Save Test"}
+          </Button>
+        </div>
       </form>
     </div>
   );
