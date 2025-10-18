@@ -1,7 +1,6 @@
-
 "use client";
+
 import { useState } from "react";
- 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -23,21 +22,28 @@ import {
   FormMessage,
 } from "../../components/ui/form";
 import { Input } from "../../components/ui/input";
-import { toast } from "../../components/ui/use-toast";
+import { toast } from "sonner"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select";
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords do not match",
-  path: ["confirmPassword"],
-});
+// ✅ Validation schema
+const formSchema = z
+  .object({
+    name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+    email: z.string().email({ message: "Please enter a valid email" }),
+    password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string(),
+    role: z.enum(["STUDENT", "ADMIN"], { required_error: "Please select a role" }),
+    institute: z.string().optional(),
+    contact: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -45,34 +51,38 @@ const Register = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "STUDENT",
+      institute: "",
+      contact: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      // Simulate API request
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      // Show success message
-      toast({
-        title: "Registration successful",
-        description: "Please check your email to verify your account.",
+      const res = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
       });
-      
-      // Redirect to login page
-      window.location.href = "/login";
-    } catch (error) {
+
+      const data = await res.json();
+
+      // if (!res.success) throw new Error(data.error || "Registration failed");
+
+      toast.success("Event has been created")
+
+      // window.location.href = "/login";
+    } catch (error: any) {
       console.error("Registration error:", error);
-      toast({
-        title: "Registration failed",
-        description: "There was an error registering your account. Please try again.",
-        variant: "destructive",
-      });
+     toast.error(error.message || "Something went wrong during registration");
     } finally {
       setIsLoading(false);
     }
   };
+
+  // For conditional fields
+  const selectedRole = form.watch("role");
 
   return (
     <div className="flex items-center justify-center min-h-[calc(100vh-64px)] p-4">
@@ -80,12 +90,13 @@ const Register = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>
-            Enter your details to create your account
+            Enter your details to register as a student or admin
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              {/* Full Name */}
               <FormField
                 control={form.control}
                 name="name"
@@ -103,6 +114,8 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
+              {/* Email */}
               <FormField
                 control={form.control}
                 name="email"
@@ -124,6 +137,75 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
+              {/* Role selector */}
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Register As</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={isLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select role" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="STUDENT">Student</SelectItem>
+                        <SelectItem value="ADMIN">Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Extra fields for students */}
+              {selectedRole === "STUDENT" && (
+                <>
+                  <FormField
+                    control={form.control}
+                    name="institute"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Institute Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Your school/college name"
+                            {...field}
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="contact"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Contact Number</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="03xx-xxxxxxx"
+                            {...field}
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+
+              {/* Password */}
               <FormField
                 control={form.control}
                 name="password"
@@ -143,6 +225,8 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
+              {/* Confirm Password */}
               <FormField
                 control={form.control}
                 name="confirmPassword"
@@ -162,6 +246,7 @@ const Register = () => {
                   </FormItem>
                 )}
               />
+
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
